@@ -1,4 +1,5 @@
 const { MongoClient } = require("mongodb");
+const ObjectID = require("mongodb").ObjectId;
 const express = require("express");
 const bodyParser = require("body-parser");
 const port = 3000;
@@ -13,6 +14,12 @@ async function connect() {
     return connection;
 }
 
+async function find(db, database, collection, criteria) {
+    let dbo = db.db(database);
+    let result = await dbo.collection(collection).find(criteria).toArray();
+    return result;
+}
+
 async function insert(db, database, collection, document) {
     let dbo=db.db(database);
     let result=await dbo.collection(collection).insertOne(document);
@@ -20,8 +27,10 @@ async function insert(db, database, collection, document) {
     return result;
 }
 
-app.get("/post/:id", (req, res) => {
-
+app.get("/post/:id", async (req, res) => {
+    console.log(req.params.id);
+    let result = await find(db, "Assignment6", "Posts", {"_id": new ObjectID(req.params.id)});
+    res.json(result);
 });
 
 app.post("/post", async (req, res) => {

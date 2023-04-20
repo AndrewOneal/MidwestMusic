@@ -1,13 +1,20 @@
 ### GET REQUEST
-GET http://localhost:3000/post/1
+GET http://localhost:3000/post/644135cefe77bad1fee47555
 
 ### POST REQUEST
 POST http://localhost:3000/post
 Content-Type: application/json
 
 {
-    "text": "test"
-}
+    "band": "BBB King",
+    "venue": "Unknown",
+    "city": "San Francisco",
+    "state": "California",
+    "date": "03/03/2003",
+    "desc": "test",
+    "imgurl": "",
+    "author": "test"
+  }
 
 ### PUT REQUEST
 PUT http://localhost:3000/post/1
