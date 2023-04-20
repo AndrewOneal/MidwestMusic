@@ -2,7 +2,7 @@ const concerts={
 	documentID:'1082262145357594624',
 	index:function(){
 		document.getElementById('concerts').innerHTML='Loading posts, please wait...';
-		database.index(concerts.documentID,function(items){
+		database.index(function(items){
 			document.getElementById('concerts').innerHTML='';
 			for(let i=0;i<items.length;i++){
 				let concert=items[i];
@@ -19,7 +19,7 @@ const concerts={
 		});
 	},
 	detail:function(index){
-		database.detail(concerts.documentID,index,function(item){
+		database.detail(index,function(item){
 			document.getElementById('bg').style=`background-image:url('${item.imgurl}');`
 			document.getElementById('details').innerHTML+=`
 				<h1>${item.band}</h1>
@@ -33,7 +33,7 @@ const concerts={
 			`;			
 			let deleteButton=document.getElementById('btn-delete');
 			deleteButton.addEventListener('click',function(){
-				database.delete(concerts.documentID,index);
+				database.delete(index);
 			});
 		});
 	},
@@ -58,11 +58,11 @@ const concerts={
 				imgurl:imgurl.value,
 				author:author.value
 			}
-			database.create(concerts.documentID,newPost);
+			database.create(newPost);
 		});
 	},
 	update:function(index){
-		database.detail(concerts.documentID,index,function(item){
+		database.detail(index,function(item){
 			document.getElementById('loading').style.display='none';
 			document.querySelector('form input[name=author]').value=item.author;
 			document.querySelector('form input[name=band]').value=item.band;
@@ -93,7 +93,7 @@ const concerts={
 					imgurl:imgurl.value,
 					author:author.value
 				}
-				database.update(concerts.documentID,index,newPost);
+				database.update(index,newPost);
 			});
 		});
 	}

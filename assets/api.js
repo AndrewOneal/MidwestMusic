@@ -1,14 +1,14 @@
 const api={
-	endpoint:'https://jsonblob.com/api/jsonBlob/',
-	GET:function(documentID,callback){
-		axios.get(`${api.endpoint}${documentID}`,{}).then(function(response){
+	endpoint:"http://localhost:3000/post",
+	GET:function(callback){
+		axios.get(`${api.endpoint}`,{}).then(function(response){
 			callback(response);
 		}).catch(function(error){
 			console.log(error);
 		});
 	},
-	PUT:function(documentID,data,callback){
-		axios.put(`${api.endpoint}${documentID}`,data).then(function(response){
+	PUT:function(data,callback){
+		axios.put(`${api.endpoint}`,data).then(function(response){
 			callback(response);
 		}).catch(function(error){
 			console.log(error);
