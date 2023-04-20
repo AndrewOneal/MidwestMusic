@@ -27,9 +27,8 @@ async function insert(db, database, collection, document) {
     return result;
 }
 
-app.get("/post/:id", async (req, res) => {
-    console.log(req.params.id);
-    let result = await find(db, "Assignment6", "Posts", {"_id": new ObjectID(req.params.id)});
+app.get("/post", async (req, res) => {
+    let result = await find(db, "Assignment6", "Posts", {});
     res.json(result);
 });
 
