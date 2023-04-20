@@ -1,4 +1,5 @@
 const { MongoClient } = require("mongodb");
+const ObjectID = require("mongodb").ObjectId;
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -58,8 +59,8 @@ app.put("/post/:id", (req, res) => {
 
 });
 
-app.delete("/post/:band", async (req, res) => {
-    let result = await remove(db, "Assignment6", "Posts", {"band": `${req.params.band}`});
+app.delete("/post/:id", async (req, res) => {
+    let result = await remove(db, "Assignment6", "Posts", {"_id": new ObjectID(req.params.id)});
     res.json(result);
 });
 

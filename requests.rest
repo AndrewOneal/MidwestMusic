@@ -20,4 +20,4 @@ Content-Type: application/json
 PUT http://localhost:3000/post/1
 
 ### DELETE REQUEST
-DELETE http://localhost:3000/post/1
+DELETE http://localhost:3000/post/64414c5cf228ac979307aab5
