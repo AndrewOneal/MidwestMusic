@@ -1,0 +1,16 @@
+### GET REQUEST
+GET http://localhost:3000/post/1
+
+### POST REQUEST
+POST http://localhost:3000/post
+Content-Type: application/json
+
+{
+    "text": "test"
+}
+
+### PUT REQUEST
+PUT http://localhost:3000/post/1
+
+### DELETE REQUEST
+DELETE http://localhost:3000/post/1
