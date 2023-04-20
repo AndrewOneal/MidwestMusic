@@ -33,6 +33,15 @@ async function insert(db, database, collection, document) {
     return result;
 }
 
+async function remove(db, database, collection, document) {
+    // Fetching database and setting it to dbo.
+    let dbo=db.db(database);
+
+    // deleting a document then returning result.
+    let result=await dbo.collection(collection).deleteOne(document);
+    console.log(result);
+}
+
 app.get("/post", async (req, res) => {
     // Requesting the Posts collection and sending it back in the response.
     let result = await find(db, "Assignment6", "Posts", {});
@@ -49,8 +58,9 @@ app.put("/post/:id", (req, res) => {
 
 });
 
-app.delete("/post/:id", (req, res) => {
-
+app.delete("/post/:band", async (req, res) => {
+    let result = await remove(db, "Assignment6", "Posts", {"band": `${req.params.band}`});
+    res.json(result);
 });
 
 async function start(){
