@@ -27,19 +27,27 @@ async function find(db, database, collection, criteria) {
 
 async function insert(db, database, collection, document) {
     // Fetching database and setting it to dbo.
-    let dbo=db.db(database);
+    let dbo = db.db(database);
     // Inserting new document into collection and returning result.
-    let result=await dbo.collection(collection).insertOne(document);
+    let result = await dbo.collection(collection).insertOne(document);
     console.log(result);
+    return result;
+}
+
+async function update(db, database, collection, criteria, document) {
+    //Fetching database and setting it to dbo.
+    let dbo = db.db(database);
+    // Updating document in collection and returningr result.
+    let result = await dbo.collection(collection).updateOne(criteria, document);
     return result;
 }
 
 async function remove(db, database, collection, document) {
     // Fetching database and setting it to dbo.
-    let dbo=db.db(database);
+    let dbo = db.db(database);
 
     // deleting a document then returning result.
-    let result=await dbo.collection(collection).deleteOne(document);
+    let result = await dbo.collection(collection).deleteOne(document);
     console.log(result);
 }
 
@@ -51,15 +59,18 @@ app.get("/post", async (req, res) => {
 
 app.post("/post", async (req, res) => {
     // Inserting document into Posts collection and responding with result of request.
-	let result=await insert(db,'Assignment6','Posts',req.body);
+	let result = await insert(db,'Assignment6','Posts',req.body);
 	res.json(result);
 });
 
-app.put("/post/:id", (req, res) => {
-
+app.put("/post/:id", async (req, res) => {
+    // Updating document in Posts collection and responding with result of request.
+    let result = await update(db, "Assignment6", "Posts", req.params.id, req.body);
+    res.json(result);
 });
 
 app.delete("/post/:id", async (req, res) => {
+    // Deleting document in Posts collection and responding with result of request.
     let result = await remove(db, "Assignment6", "Posts", {"_id": new ObjectID(req.params.id)});
     res.json(result);
 });
