@@ -65,7 +65,7 @@ app.post("/post", async (req, res) => {
 
 app.put("/post/:id", async (req, res) => {
     // Updating document in Posts collection and responding with result of request.
-    let result = await update(db, "Assignment6", "Posts", req.params.id, req.body);
+    let result = await update(db, "Assignment6", "Posts", {"_id": new ObjectID(req.params.id)}, {$set: req.body});
     res.json(result);
 });
 

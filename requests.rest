@@ -17,7 +17,19 @@ Content-Type: application/json
   }
 
 ### PUT REQUEST
-PUT http://localhost:3000/post/1
+PUT http://localhost:3000/post/64413624fe77bad1fee4755b
+Content-Type: application/json
+
+{
+    "band": "BBB King",
+    "venue": "Unknown",
+    "city": "San",
+    "state": "California",
+    "date": "03/03/2003",
+    "desc": "test",
+    "imgurl": "",
+    "author": "test"
+  }
 
 ### DELETE REQUEST
 DELETE http://localhost:3000/post/64414c5cf228ac979307aab5
