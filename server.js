@@ -5,6 +5,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const port = 3000;
 const uri = "mongodb+srv://codyking04:xbsYjbT03CcLrgen@ase220.hct6otj.mongodb.net/?retryWrites=true&w=majority";
+const fs = require('fs');
 
 const app = express();
 const client = new MongoClient(uri);
@@ -50,6 +51,10 @@ async function remove(db, database, collection, document) {
     let result = await dbo.collection(collection).deleteOne(document);
     console.log(result);
 }
+
+app.get('/index', (req, res) => {
+    res.send(fs.readFileSync('./index.html', 'utf-8'));
+})
 
 app.get("/post", async (req, res) => {
     // Requesting the Posts collection and sending it back in the response.
