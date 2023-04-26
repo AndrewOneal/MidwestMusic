@@ -54,8 +54,8 @@ async function remove(db, database, collection, document) {
 
 app.use(express.static('public'));
 
-app.get('/index', (req, res) => {
-    res.send(fs.readFileSync('./public/index.html', 'utf-8'));
+app.get('/', (req, res) => {
+    res.send(fs.readFileSync('./templates/index.html', 'utf-8'));
 })
 
 app.get("/post", async (req, res) => {
