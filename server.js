@@ -54,12 +54,15 @@ async function remove(db, database, collection, document) {
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+    // Requesting the Posts collection and sending it back in the response.
+    let result = await find(db, "Assignment6", "Posts", {});
+    // res.json(result);
     res.send(fs.readFileSync('./templates/index.html', 'utf-8'));
 })
 
 app.get("/post", async (req, res) => {
-    // Requesting the Posts collection and sending it back in the response.
+    
     let result = await find(db, "Assignment6", "Posts", {});
     res.json(result);
 });
