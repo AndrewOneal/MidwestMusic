@@ -56,32 +56,32 @@ app.use(express.static('public'));
 
 app.get('/', async (req, res) => {
     // Requesting the Posts collection and sending it back in the response.
-    let result = await find(db, "Assignment6", "Posts", {});
+    let result = await find(db, "FinalProject", "Posts", {});
     // res.json(result);
     res.send(fs.readFileSync('./templates/index.html', 'utf-8'));
 })
 
 app.get("/post", async (req, res) => {
     
-    let result = await find(db, "Assignment6", "Posts", {});
+    let result = await find(db, "FinalProject", "Posts", {});
     res.json(result);
 });
 
 app.post("/post", async (req, res) => {
     // Inserting document into Posts collection and responding with result of request.
-	let result = await insert(db,'Assignment6','Posts',req.body);
+	let result = await insert(db,'FinalProject','Posts',req.body);
 	res.json(result);
 });
 
 app.put("/post/:id", async (req, res) => {
     // Updating document in Posts collection and responding with result of request.
-    let result = await update(db, "Assignment6", "Posts", {"_id": new ObjectID(req.params.id)}, {$set: req.body});
+    let result = await update(db, "FinalProject", "Posts", {"_id": new ObjectID(req.params.id)}, {$set: req.body});
     res.json(result);
 });
 
 app.delete("/post/:id", async (req, res) => {
     // Deleting document in Posts collection and responding with result of request.
-    let result = await remove(db, "Assignment6", "Posts", {"_id": new ObjectID(req.params.id)});
+    let result = await remove(db, "FinalProject", "Posts", {"_id": new ObjectID(req.params.id)});
     res.json(result);
 });
 
