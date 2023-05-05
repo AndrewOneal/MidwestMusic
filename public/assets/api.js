@@ -13,5 +13,12 @@ const api={
 		}).catch(function(error){
 			console.log(error);
 		});
+	},
+	POST:function(data,callback){
+		axios.post(`${api.endpoint}`,data).then(function(response){
+			callback(response);
+		}).catch(function(error){
+			console.log(error);
+		});
 	}
 }

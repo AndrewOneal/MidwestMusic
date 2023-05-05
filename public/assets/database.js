@@ -26,11 +26,14 @@ const database={
 		});
 	},
 	create:function(newData){
-		api.GET(function(response){
-			response.data.push(newData);
-			api.PUT(response.data,function(){
-				alert('The post has been added. Please go back to the home page');
-			});
-		});
+		// api.GET(function(response){
+		// 	response.data.push(newData);
+		// 	api.PUT(response.data,function(){
+		// 		alert('The post has been added. Please go back to the home page');
+		// 	});
+		// });
+		api.POST(newData,function(){
+			alert('The post has been added. Please go back to the home page');
+		})
 	},
 }
