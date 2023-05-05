@@ -20,5 +20,14 @@ const api={
 		}).catch(function(error){
 			console.log(error);
 		});
+	},
+	REMOVE:function(data,callback){
+		api.GET(function(response){
+			axios.delete(`${api.endpoint}/${response.data[data]._id}`,data).then(function(response){
+				callback(response);
+			}).catch(function(error){
+				console.log(error);
+			});
+		});
 	}
 }

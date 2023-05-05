@@ -18,12 +18,15 @@ const database={
 		});
 	},
 	delete:function(index){
-		api.GET(function(response){
-			response.data.splice(index,1);
-			api.PUT(response.data,function(){
-				alert('The post has been deleted. Please go back to the home page');
-			});
-		});
+		// api.GET(function(response){
+		// 	response.data.splice(index,1);
+		// 	api.PUT(response.data,function(){
+		// 		alert('The post has been deleted. Please go back to the home page');
+		// 	});
+		// });
+		api.REMOVE(index,function(){
+			alert('The post has been deleted. Please go back to the home page');
+		})
 	},
 	create:function(newData){
 		// api.GET(function(response){

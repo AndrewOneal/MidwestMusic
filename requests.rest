@@ -32,4 +32,4 @@ Content-Type: application/json
   }
 
 ### DELETE REQUEST
-DELETE http://localhost:3000/post/64414c5cf228ac979307aab5
+DELETE http://localhost:3000/post/64552ff8e154e5fe00f8e37b
