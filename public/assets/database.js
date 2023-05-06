@@ -9,12 +9,10 @@ const database={
 			callback(response.data[index]);
 		});
 	},
-	update:function(index,newData){
-		api.GET(function(response){
-			response.data[index]=newData;
-			api.PUT(response.data,function(){
-				alert('The post has been updated. Please go back to the home page');
-			});
+	update:function(documentID,newData){
+		api.PUT(newData, documentID, function() {
+			alert("The post has been edited.");
+			document.location.href = "/templates";
 		});
 	},
 	delete:function(index){
@@ -25,7 +23,8 @@ const database={
 		// 	});
 		// });
 		api.REMOVE(index,function(){
-			alert('The post has been deleted. Please go back to the home page');
+			alert('The post has been deleted.');
+			document.location.href = "/templates";
 		})
 	},
 	create:function(newData){
@@ -36,7 +35,8 @@ const database={
 		// 	});
 		// });
 		api.POST(newData,function(){
-			alert('The post has been added. Please go back to the home page');
+			alert('The post has been added.');
+			document.location.href = "/templates";
 		})
 	},
 }

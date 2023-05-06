@@ -73,7 +73,9 @@ const concerts={
 			document.querySelector('form textarea[name=desc]').value=item.desc;
 			document.querySelector('form input[name=imgurl]').value=item.imgurl;
 
-			document.querySelector('form').addEventListener('submit',function(e){
+			let documentID = item._id;
+
+			document.querySelector('button').addEventListener('click',function(e){
 				e.preventDefault();
 				let author=document.querySelector('form input[name=author]');
 				let band=document.querySelector('form input[name=band]');
@@ -83,6 +85,7 @@ const concerts={
 				let date=document.querySelector('form input[name=date]');
 				let desc=document.querySelector('form textarea[name=desc]');
 				let imgurl=document.querySelector('form input[name=imgurl]');
+
 				let newPost={
 					band:band.value,
 					venue:venue.value,
@@ -93,7 +96,7 @@ const concerts={
 					imgurl:imgurl.value,
 					author:author.value
 				}
-				database.update(index,newPost);
+				database.update(documentID,newPost);
 			});
 		});
 	}

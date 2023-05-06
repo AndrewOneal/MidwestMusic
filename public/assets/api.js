@@ -7,8 +7,8 @@ const api={
 			console.log(error);
 		});
 	},
-	PUT:function(data,callback){
-		axios.put(`${api.endpoint}`,data).then(function(response){
+	PUT:function(data, documentID, callback){
+		axios.put(`${api.endpoint}/${documentID}`,data).then(function(response){
 			callback(response);
 		}).catch(function(error){
 			console.log(error);
