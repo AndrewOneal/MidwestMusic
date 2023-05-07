@@ -32,7 +32,7 @@ app.use((err, req, res, next) => {
 
 const setUserID = async function (req, res, next) {
     // Getting userID from user that matches token cookie.
-    let result = await find(db, "Assignment6", "Users", {"jwt": req.cookies.token});
+    let result = await find(db, "FinalProject", "Users", {"jwt": req.cookies.token});
     let UserID = JSON.stringify(result[0]._id).replace(/"|'/g, '');
 
     // Storing UserID in body to put in document later.
@@ -56,9 +56,9 @@ const verifyToken = function (req, res, next) {
 
 const verifyUser = async function (req, res, next) {
     // Finding document that matches id given as request parameter.
-    let result = await find(db, "Assignment6", "JSONBlob", {"_id": new ObjectID(req.params.id)});
+    let result = await find(db, "FinalProject", "JSONBlob", {"_id": new ObjectID(req.params.id)});
     // Getting userID from user that matches token cookie.
-    let UserID = await find(db, "Assignment6", "Users", {"jwt": req.cookies.token});
+    let UserID = await find(db, "FinalProject", "Users", {"jwt": req.cookies.token});
     UserID = JSON.stringify(UserID[0]._id).replace(/"|'/g, '');
 
     // Checking if any documents are found that match id given as request parameter.
@@ -205,7 +205,7 @@ app.post("/auth/signin", async (req, res) => {
             userID = result[0]._id.toString().replace('New ObjectId("','').replace('")','');
 
             // Updating user in database with JSON web token.
-            await update(db, "Assignment6", "Users", {_id: new ObjectID(userID)}, {$set: {jwt: token}});
+            await update(db, "FinalProject", "Users", {_id: new ObjectID(userID)}, {$set: {jwt: token}});
 
             // Sending 200 status code, setting token to cookie, and sending back success message.
             res.status(200);
