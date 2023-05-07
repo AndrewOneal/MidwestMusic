@@ -15,6 +15,7 @@ const fs = require('fs');
 
 const app = express();
 const client = new MongoClient(uri);
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({credentials: true, origin: "http://127.0.0.1:5500", exposedHeaders: ["set-cookie"]}));
 app.use(cookieParser());
@@ -133,23 +134,83 @@ async function remove(db, database, collection, document) {
 
 app.use(express.static('public'));
 
-app.get('/', async (req, res) => {
-    // Requesting the Posts collection and sending it back in the response.
-    let result = await find(db, "FinalProject", "Posts", {});
-    // res.json(result);
-    res.send(fs.readFileSync('./templates/index.html', 'utf-8'));
-})
+app.get('/', (req, res) => {
+    res.redirect('/index');
+  });
 
-app.get("/post", async (req, res) => {
+app.get('/index', async (req, res) => {
+    try {
+        // Requesting the Posts collection and storing the result.
+        let result = await find(db, "FinalProject", "Posts", {});
     
-    let result = await find(db, "FinalProject", "Posts", {});
-    res.json(result);
+        fs.readFile('templates/index.html', 'utf-8', (err, htmlTemplate) => {
+          if (err) {
+            console.log(err);
+            return res.sendStatus(500);
+          }
+    
+          // Modify the HTML template to include the data
+          const renderedHtml = htmlTemplate.replace('{{data}}', JSON.stringify(result));
+    
+          // Send the modified HTML content to the client
+          res.send(renderedHtml);
+        });
+      } catch (error) {
+        console.error('Error:', error);
+        res.sendStatus(500);
+      }
+    });
+
+app.get('/aboutus', (req, res) => {
+    fs.readFile('public/about-us.html', 'utf-8', (err, data) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+      } else {
+        res.send(data);
+      }
+    });
+  });
+
+  app.get('/detail/:id', async (req, res) => {
+    let result = await find(db, "FinalProject", "Posts", {"_id": new ObjectID(req.params.id)});
+    let concert = result[0];
+    
+    let html = fs.readFileSync('templates/detail.html', 'utf-8');
+    html = html.replace('{{band}}', concert.band || '');
+    html = html.replace('{{venue}}', concert.venue || '');
+    html = html.replace('{{city}}', concert.city || '');
+    html = html.replace('{{state}}', concert.state || '');
+    html = html.replace('{{date}}', concert.date || '');
+    html = html.replace('{{desc}}', concert.desc || '');
+    html = html.replace('{{imgurl}}', concert.imgurl || '');
+    html = html.replace('{{author}}',concert.author || '');
+    res.send(html);
+
+    });
+
+app.get('/create', async (req, res) => {
+    let html = fs.readFileSync('templates/create.html', 'utf8');
+    res.send(html);
 });
 
-app.post("/post", async (req, res) => {
-    // Inserting document into Posts collection and responding with result of request.
-	let result = await insert(db,'FinalProject','Posts',req.body);
-	res.json(result);
+app.post('/create', async (req, res) => {
+
+    const { band, venue, city, state, date, desc, imgurl, author } = req.body;
+
+    // Create a new post object
+    const newPost = {
+      band,
+      venue,
+      city,
+      state,
+      date,
+      desc,
+      imgurl,
+      author
+    };
+    insert(db, "FinalProject", "Posts", newPost);
+    
 });
 
 app.put("/post/:id", async (req, res) => {
