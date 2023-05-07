@@ -25,14 +25,14 @@ Licence URI: https://www.os-templates.com/template-terms
 				color: black;
 			}
 
-			#newpost {
+			#signup {
 			padding-top: 5vw;
 			padding-bottom: 20vw;
 			padding-left: 20vw;
 			padding-right: 20vw;
 			}
 
-			#newpost button {
+			#signup button {
 			color: black;
 			display: inline-block;
 			}
@@ -48,7 +48,7 @@ Licence URI: https://www.os-templates.com/template-terms
 			<p>The place to share your midwest concert experiences</p>
 			</div>
 		</header>
-		<form id="newpost">
+		<form id="signup">
             <div>
 				<label>Name:</label><br />
 				<input name="name" type="name" />
@@ -64,8 +64,8 @@ Licence URI: https://www.os-templates.com/template-terms
 				<input name="password" type="password" />
 			</div>
 			<br />
-			<button type="submit">Log In</button>
-			<p>Already have an account? <a href="login.html">Log in</a></p>
+			<button type="submit">Sign Up</button>
+			<p>Already have an account? <a href="login.html">Log In</a></p>
 		</form>
 		<div class="clear"></div>
 		</div>
@@ -83,5 +83,32 @@ Licence URI: https://www.os-templates.com/template-terms
 		<script src="/public/layout/scripts/jquery.mobilemenu.js"></script>
 		<script src="/public/assets/api.js"></script>
 		<script src="/public/assets/database.js"></script>
+		<script>
+			let signupForm = $(signup);
+			let name = $("#signup input[name=name]");
+			let email = $("#signup input[name=email]");
+			let password = $("#signup input[name=password]");
+			let signupFormButton = $(":submit");
+
+			signupFormButton.on("click", (e) => {
+				e.preventDefault();
+
+				axios.post("http://localhost:3000/auth/signup", {
+					name: `${name.val()}`,
+					email: `${email.val()}`,
+					password: `${password.val()}`
+				},
+				{
+					withCredentials: true
+				})
+				.then((res) => {
+					alert("User has been signed in.");
+					document.location.href = "/templates";
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+			});
+		</script>
 	</body>
 </html>

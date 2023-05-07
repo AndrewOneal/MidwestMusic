@@ -174,11 +174,21 @@ app.post("/auth/signup", async (req, res) => {
         res.json({message: "User already exists"});
     }
     else {
+        // Generating JSON web token with user email.
+        let token = jwt.sign({id: req.body.email}, jwt_salt, {expiresIn: jwt_expiration});
+
         // Hashing password.
         req.body.password = bcrypt.hashSync(req.body.password, saltRounds);
         
         // Inserting hashed password into Users collection.
-        insert(db, "FinalProject", "Users", {email: req.body.email, password: req.body.password});
+        insert(db, "FinalProject", "Users", {name: req.body.name, email: req.body.email, password: req.body.password});
+
+        res.cookie("token", token, {
+            maxAge: 1200000,
+            httpOnly: true,
+            secure: true,
+            sameSite: "none"
+        });
 
         // Sending 201 status code and success message.
         res.status(201);
