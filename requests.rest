@@ -33,3 +33,21 @@ Content-Type: application/json
 
 ### DELETE REQUEST
 DELETE http://localhost:3000/post/64552ff8e154e5fe00f8e37b
+
+### SIGNUP REQUEST
+POST http://localhost:3000/auth/signup
+Content-Type: application/json
+
+{
+  "email": "cody.king04@outlook.com",
+  "password": "password123"
+}
+
+### SIGNIN REQUEST
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+  "email": "cody.king04@outlook.com",
+  "password": "password123"
+}
