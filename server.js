@@ -16,7 +16,7 @@ const fs = require('fs');
 const app = express();
 const client = new MongoClient(uri);
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({credentials: true, origin: "http://127.0.0.1:5500", exposedHeaders: ["set-cookie"]}));
 app.use(cookieParser());
 // Middleware checks for valid JSON.
 app.use((err, req, res, next) => {
@@ -211,7 +211,9 @@ app.post("/auth/signin", async (req, res) => {
             res.status(200);
             res.cookie("token", token, {
                 maxAge: 1200000,
-                httpOnly: true
+                httpOnly: true,
+                secure: true,
+                sameSite: "none"
             });
             res.json({message: "User authenticated"});
         }
