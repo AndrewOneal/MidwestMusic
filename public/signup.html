@@ -93,21 +93,29 @@ Licence URI: https://www.os-templates.com/template-terms
 			signupFormButton.on("click", (e) => {
 				e.preventDefault();
 
-				axios.post("http://localhost:3000/auth/signup", {
-					name: `${name.val()}`,
-					email: `${email.val()}`,
-					password: `${password.val()}`
-				},
-				{
-					withCredentials: true
-				})
-				.then((res) => {
-					alert("User has been signed in.");
-					document.location.href = "/templates";
-				})
-				.catch((err) => {
-					console.log(err);
-				});
+				if (name.val() == "" || email.val() == "" || password.val() == "") {
+					alert("All fields must be filled in before submitting.");
+				}
+				else {
+					axios.post("http://localhost:3000/auth/signup", {
+						name: `${name.val()}`,
+						email: `${email.val()}`,
+						password: `${password.val()}`
+					},
+					{
+						withCredentials: true
+					})
+					.then((res) => {
+						alert("User has been signed in.");
+						document.location.href = "/templates";
+					})
+					.catch((err) => {
+						console.log(err);
+						if (err.response.status == 406) {
+							alert("A user already exists with that email.");
+						}
+					});
+				}
 			});
 		</script>
 	</body>
