@@ -25,14 +25,14 @@ Licence URI: https://www.os-templates.com/template-terms
 				color: black;
 			}
 
-			#newpost {
+			#login {
 			padding-top: 5vw;
 			padding-bottom: 20vw;
 			padding-left: 20vw;
 			padding-right: 20vw;
 			}
 
-			#newpost button {
+			#login button {
 			color: black;
 			display: inline-block;
 			}
@@ -48,15 +48,15 @@ Licence URI: https://www.os-templates.com/template-terms
 			<p>The place to share your midwest concert experiences</p>
 			</div>
 		</header>
-		<form id="newpost">
+		<form id="login">
 			<div>
 				<label>Email</label><br />
-				<input name="email" type="email" />
+				<input name="email" type="email" id="email" />
 			</div>
 			<br />
 			<div>
 				<label>Password</label><br />
-				<input name="password" type="password" />
+				<input name="password" type="password" id="password" />
 			</div>
 			<br />
 			<button type="submit">Log In</button>
@@ -78,5 +78,42 @@ Licence URI: https://www.os-templates.com/template-terms
 		<script src="/public/layout/scripts/jquery.mobilemenu.js"></script>
 		<script src="/public/assets/api.js"></script>
 		<script src="/public/assets/database.js"></script>
+		<script>
+			let loginForm = $(login);
+			let email = $("#login input[name=email]");
+			let password = $("#login input[name=password]");
+			let loginFormButton = $(":submit");
+			
+			loginFormButton.on("click", (e) => {
+				e.preventDefault();
+
+				if (email.val() == "" || password.val() == "") {
+					alert("All fields must be filled in before submitting.");
+				}
+				else {
+					axios.post("http://localhost:3000/auth/signin", {
+						email: `${email.val()}`,
+						password: `${password.val()}`
+					},
+					{
+						withCredentials: true
+					})
+					.then((res) => {
+						alert("User has been signed in.");
+						document.location.href = "/templates";
+					})
+					.catch((err) => {
+						console.log(err);
+
+						if (err.response.status == 406 && err.response.data.message == "Wrong password") {
+								alert("Wrong password.");
+						}
+						else if (err.response.status == 406 && err.response.data.message == "User is not registered") {
+							alert("User does not exist.");
+						}
+					});
+				}
+			});
+		</script>
 	</body>
 </html>
