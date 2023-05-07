@@ -223,7 +223,7 @@ app.post("/auth/signin", async (req, res) => {
     }
 });
 
-app.post("/api/auth/signout", (req, res) => {
+app.post("/auth/signout", (req, res) => {
     // Clearing token cookie and responding with success message.
     res.clearCookie("token");
     res.json({message: "User has been signed out"});

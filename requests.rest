@@ -51,3 +51,6 @@ Content-Type: application/json
   "email": "cody.king04@outlook.com",
   "password": "password123"
 }
+
+### SIGNOUT REQUEST
+POST http://localhost:3000/auth/signout
