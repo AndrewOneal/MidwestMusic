@@ -111,6 +111,7 @@ Licence URI: https://www.os-templates.com/template-terms
 					})
 					.catch((err) => {
 						console.log(err);
+						
 						if (err.response.status == 406) {
 							alert("A user already exists with that email.");
 						}
