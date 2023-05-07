@@ -194,6 +194,11 @@ app.get('/create', async (req, res) => {
     res.send(html);
 });
 
+app.get("/login", async (req, res) => {
+    let html = fs.readFileSync("public/login.html", "utf8");
+    res.send(html);
+});
+
 app.post('/create', async (req, res) => {
 
     const { band, venue, city, state, date, desc, imgurl, author } = req.body;
