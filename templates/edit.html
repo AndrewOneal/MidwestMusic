@@ -58,7 +58,7 @@ Licence URI: https://www.os-templates.com/template-terms
         </ul>
         </nav>
     </section>
-    <form method="POST">
+    <form method="PUT">
         <div>
             <label>Name</label><br />
             <input name="author" type="text" value="{{author}}"/>
@@ -99,7 +99,7 @@ Licence URI: https://www.os-templates.com/template-terms
             <input name="imgurl" type="text" value="{{imgurl}}" /><br />
         </div>
         <br />
-        <button type="submit" onclick="editPost('{{id}}')">Update</button>
+        <button type="submit">Update</button>
     </form>
     <div class="clear"></div>
     </div>
@@ -115,19 +115,41 @@ Licence URI: https://www.os-templates.com/template-terms
     <script src="/assets/database.js"></script>
     <script src="/assets/getAllURLParams.js"></script>
     <script>
-         function editPost(postId) {
-            fetch(`/edit/${postId}`, {
-                method: 'PUT'
+        let editForm = $("form");
+        let editFormButton = $(":submit");
+        let author = $("input[name=author]");
+        let band = $("input[name=band]");
+        let venue = $("input[name=venue]");
+        let city = $("input[name=city]");
+        let state = $("input[name=state]");
+        let date = $("input[name=date]");
+        let desc = $("textarea[name=desc]");
+        let imgurl = $("input[name=imgurl]");
+        let id = window.location.href.split("/")[4];
+
+        console.log(desc.val());
+        
+        editFormButton.on("click", (e) => {
+            e.preventDefault();
+
+            axios.put(`/edit/${id}`, {
+                author: `${author.val()}`,
+                band: `${band.val()}`,
+                venue: `${venue.val()}`,
+                city: `${city.val()}`,
+                state: `${state.val()}`,
+                date: `${date.val()}`,
+                desc: `${desc.val()}`,
+                imgurl: `${imgurl.val()}`
             })
-            .then(response => response.json())
-            .then(data => {
-                window.location.href = "/index";
+            .then((res) => {
+                console.log(res);
             })
-            .catch(error => {
-            // Handle any error that occurs
-                console.error(error);
+            .catch((err) => {
+                console.log(err);
             });
-        }
+        });
+        
     </script>
     <script src="/layout/scripts/jquery.min.js"></script>
     <script src="/layout/scripts/jquery.backtotop.js"></script>
