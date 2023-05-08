@@ -126,8 +126,6 @@ Licence URI: https://www.os-templates.com/template-terms
         let desc = $("textarea[name=desc]");
         let imgurl = $("input[name=imgurl]");
         let id = window.location.href.split("/")[4];
-
-        console.log(desc.val());
         
         editFormButton.on("click", (e) => {
             e.preventDefault();
@@ -144,6 +142,7 @@ Licence URI: https://www.os-templates.com/template-terms
             })
             .then((res) => {
                 console.log(res);
+                window.location.href = "/";
             })
             .catch((err) => {
                 console.log(err);
