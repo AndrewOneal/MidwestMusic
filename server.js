@@ -57,7 +57,7 @@ const verifyToken = function (req, res, next) {
 
 const verifyUser = async function (req, res, next) {
     // Finding document that matches id given as request parameter.
-    let result = await find(db, "FinalProject", "JSONBlob", {"_id": new ObjectID(req.params.id)});
+    let result = await find(db, "FinalProject", "Posts", {"_id": new ObjectID(req.params.id)});
     // Getting userID from user that matches token cookie.
     let UserID = await find(db, "FinalProject", "Users", {"jwt": req.cookies.token});
     UserID = JSON.stringify(UserID[0]._id).replace(/"|'/g, '');
@@ -88,7 +88,7 @@ const checkValidID = (req, res, next) => {
     catch (error) {
         console.log(error);
         res.statusCode = 400;
-        res.json({message: "Invalid JSONBlob ID"});
+        res.json({message: "Invalid ID"});
     }
 }
 
@@ -172,7 +172,7 @@ app.get('/aboutus', (req, res) => {
     });
   });
 
-  app.get('/detail/:id', async (req, res) => {
+  app.get('/detail/:id', checkValidID, async (req, res) => {
     let result = await find(db, "FinalProject", "Posts", {"_id": new ObjectID(req.params.id)});
     let concert = result[0];
     
@@ -206,9 +206,9 @@ app.get("/signup", async (req, res) => {
     res.send(html);
 });
 
-app.post('/create', async (req, res) => {
+app.post('/create', verifyToken, setUserID, async (req, res) => {
 
-    const { band, venue, city, state, date, desc, imgurl, author } = req.body;
+    const { band, venue, city, state, date, desc, imgurl, author, UserID } = req.body;
 
     // Create a new post object
     const newPost = {
@@ -219,14 +219,14 @@ app.post('/create', async (req, res) => {
       date,
       desc,
       imgurl,
-      author
+      author,
+      UserID
     };
     await insert(db, "FinalProject", "Posts", newPost);
     res.redirect('/index');
-    
 });
 
-app.get('/edit/:id', async (req, res) => { 
+app.get('/edit/:id', async (req, res) => {
     let result = await find(db, "FinalProject", "Posts", {"_id": new ObjectID(req.params.id)});
     let concert = result[0];
     
@@ -243,13 +243,13 @@ app.get('/edit/:id', async (req, res) => {
     res.send(html);
 });
 
-app.put("/edit/:id", async (req, res) => {
+app.put("/edit/:id", checkValidID, verifyToken, verifyUser, async (req, res) => {
     console.log(req.body);
     let result = await update(db, "FinalProject", "Posts", {"_id": new ObjectID(req.params.id)}, {$set: req.body});
     res.json(result);
 });
 
-app.delete("/delete/:id", async (req, res) => {
+app.delete("/delete/:id", checkValidID, verifyToken, verifyUser, async (req, res) => {
     await remove(db, "FinalProject", "Posts", {"_id": new ObjectID(req.params.id)});
     res.json({ message: "Post deleted" });
 });

@@ -139,6 +139,9 @@ Licence URI: https://www.os-templates.com/template-terms
                 date: `${date.val()}`,
                 desc: `${desc.val()}`,
                 imgurl: `${imgurl.val()}`
+            },
+            {
+                withCredentials: true
             })
             .then((res) => {
                 console.log(res);
@@ -146,9 +149,17 @@ Licence URI: https://www.os-templates.com/template-terms
             })
             .catch((err) => {
                 console.log(err);
+
+                if (err.response.status == 403 && err.response.data.message == "User is not logged in") {
+                    alert("User is not logged in");
+                    window.location.href = "/";
+                }
+                else if (err.response.status == 403 && err.response.data.message == "User is not owner of document") {
+                    alert("User is not the owner of the post");
+                    window.location.href = "/";
+                }
             });
         });
-        
     </script>
     <script src="/layout/scripts/jquery.min.js"></script>
     <script src="/layout/scripts/jquery.backtotop.js"></script>
