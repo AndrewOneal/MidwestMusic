@@ -56,8 +56,8 @@ Licence URI: https://www.os-templates.com/template-terms
 				<h2>Venue: {{venue}} in {{city}}, {{state}}</h2>
 				<p>{{desc}}</p>
 				<p>Author: {{author}}</p>
-				<a href="edit.html?concert_id=${index}"><button>Edit</button></a>
-				<button href="delete.html?concert_id=${index}" id="btn-delete">Delete</button></br></br>
+        <a href="/edit/{{editid}}"><button>Edit</button></a>
+				<button onclick="deletePost('{{deleteid}}')">Delete</button></br></br>
 				<a href="/index">&lt-- Back to Index</a>
     </div>
 
@@ -77,5 +77,19 @@ Licence URI: https://www.os-templates.com/template-terms
     <script src="/assets/api.js"></script>
     <script src="/assets/database.js"></script>
     <script src="/assets/getAllURLParams.js"></script>
+    <script>
+      function deletePost(postId) {
+        fetch(`/delete/${postId}`, {
+          method: 'DELETE'
+        })
+          .then(response => response.json())
+          .then(data => {
+            alert(data.message)
+            window.location.href = "/index";
+          })
+          .catch(error => {
+          });
+      }
+    </script>
   </body>
 </html>

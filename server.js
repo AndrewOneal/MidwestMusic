@@ -185,6 +185,8 @@ app.get('/aboutus', (req, res) => {
     html = html.replace('{{desc}}', concert.desc || '');
     html = html.replace('{{imgurl}}', concert.imgurl || '');
     html = html.replace('{{author}}',concert.author || '');
+    html = html.replace('{{editid}}', concert._id);
+    html = html.replace('{{deleteid}}', concert._id);
     res.send(html);
 
     });
@@ -219,20 +221,37 @@ app.post('/create', async (req, res) => {
       imgurl,
       author
     };
-    insert(db, "FinalProject", "Posts", newPost);
+    await insert(db, "FinalProject", "Posts", newPost);
+    res.redirect('/index');
     
 });
 
-app.put("/post/:id", async (req, res) => {
-    // Updating document in Posts collection and responding with result of request.
+app.get('/edit/:id', async (req, res) => { 
+    let result = await find(db, "FinalProject", "Posts", {"_id": new ObjectID(req.params.id)});
+    let concert = result[0];
+    
+    let html = fs.readFileSync('templates/edit.html', 'utf-8');
+    html = html.replace('{{band}}', concert.band || '');
+    html = html.replace('{{venue}}', concert.venue || '');
+    html = html.replace('{{city}}', concert.city || '');
+    html = html.replace('{{state}}', concert.state || '');
+    html = html.replace('{{date}}', concert.date || '');
+    html = html.replace('{{desc}}', concert.desc || '');
+    html = html.replace('{{imgurl}}', concert.imgurl || '');
+    html = html.replace('{{author}}',concert.author || '');
+    html = html.replace('{{id}}', concert._id);
+    res.send(html);
+});
+
+app.put("/edit/:id", async (req, res) => {
+    console.log(req.body);
     let result = await update(db, "FinalProject", "Posts", {"_id": new ObjectID(req.params.id)}, {$set: req.body});
     res.json(result);
 });
 
-app.delete("/post/:id", async (req, res) => {
-    // Deleting document in Posts collection and responding with result of request.
-    let result = await remove(db, "FinalProject", "Posts", {"_id": new ObjectID(req.params.id)});
-    res.json(result);
+app.delete("/delete/:id", async (req, res) => {
+    await remove(db, "FinalProject", "Posts", {"_id": new ObjectID(req.params.id)});
+    res.json({ message: "Post deleted" });
 });
 
 app.post("/auth/signup", async (req, res) => {

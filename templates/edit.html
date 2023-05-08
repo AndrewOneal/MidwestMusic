@@ -13,7 +13,7 @@ Licence URI: https://www.os-templates.com/template-terms
     <title>Midwest Music Scene</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, -scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="/public/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
     <style>
         input {
             color:black;
@@ -41,86 +41,96 @@ Licence URI: https://www.os-templates.com/template-terms
     </head>
     <body id="top">
     <!-- Top Background Image Wrapper -->
-    <div class="bgded overlay" style="background-image:url('/public/images/bg.jpg');"> 
+    <div class="bgded overlay" style="background-image:url('/images/bg.jpg');"> 
     <header id="header" class="hoc clear"> 
         <div id="logo" class="one_quarter first">
-        <h1><a href="index.html">Midwest Music Scene</a></h1>
+            <h1><a href="/index">Midwest Music Scene</a></h1>
         <p>The place to share your midwest concert experiences</p>
         </div>
     </header>
     <section id="navwrapper" class="hoc clear"> 
         <nav id="mainav">
         <ul class="clear">
-            <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="create.html">Write Post</a></li>
-            <li><a href="../public/about-us.html">About Us</a></li>
-            <li><a href="../public/login.html">Log In/Sign Up</a></li>
+            <li class="active"><a href="/index">Home</a></li>
+            <li><a href="/create">Write Post</a></li>
+            <li><a href="/aboutus">About Us</a></li>
+            <li><a href="/auth/signin">Log In/Sign Up</a></li>
         </ul>
         </nav>
     </section>
-    <div id="loading">Loading post...</div>
-    <form id="newpost">
+    <form method="POST">
         <div>
-            <label>Your name</label><br />
-            <input name="author" type="text" />
+            <label>Name</label><br />
+            <input name="author" type="text" value="{{author}}"/>
         </div>
         <br />
         <div>
             <label>Band</label><br />
-            <input name="band" type="text" />
+            <input name="band" type="text" value ="{{band}}"/>
         </div>
         <br />
         <div>
             <label>Venue</label><br />
-            <input name="venue" type="text" />
+            <input name="venue" type="text" value="{{venue}}"/>
         </div>
         <br />
         <div>
             <label>City</label><br />
-            <input name="city" type="text" />
+            <input name="city" type="text" value="{{city}}" />
         </div>
         <br />
         <div>
             <label>State</label><br />
-            <input name="state" type="text" />
+            <input name="state" type="text" value="{{state}}" />
         </div>
         <br />
         <div>
             <label>Date (mm/dd/yy)</label><br />
-            <input name="date" type="text">
+            <input name="date" type="text" value="{{date}}">
         </div>
         <br />
         <div>
             <label>Description</label><br />
-            <textarea name="desc" rows="10"></textarea>
+            <textarea name="desc" rows="10">{{desc}}</textarea>
         </div>
         <br />
         <div>
             <label>Add Image URL</label><br />
-            <input name="imgurl" type="text" /><br />
+            <input name="imgurl" type="text" value="{{imgurl}}" /><br />
         </div>
         <br />
-        <button type="submit">Update</button>
+        <button type="submit" onclick="editPost('{{id}}')">Update</button>
     </form>
     <div class="clear"></div>
     </div>
     <div class="wrapper row5">
     <div id="copyright" class="hoc clear"> 
-        <p class="fl_left">Copyright &copy; 2023 - All Rights Reserved - <a href="index.html">midwestmusic.com</a></p>
+        <p class="fl_left">Copyright &copy; 2023 - All Rights Reserved - <a href="/index">midwestmusic.com</a></p>
         <p class="fl_right">Template by <a target="_blank" href="https://www.os-templates.com/" title="Free Website Templates">OS Templates</a></p>
     </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="/public/assets/api.js"></script>
-    <script src="/public/assets/database.js"></script>
-    <script src="/public/assets/getAllURLParams.js"></script>
-    <script src="/app.js"></script>
+    <script src="/assets/api.js"></script>
+    <script src="/assets/database.js"></script>
+    <script src="/assets/getAllURLParams.js"></script>
     <script>
-        concerts.update(getAllUrlParams().concert_id);
+         function editPost(postId) {
+            fetch(`/edit/${postId}`, {
+                method: 'PUT'
+            })
+            .then(response => response.json())
+            .then(data => {
+                window.location.href = "/index";
+            })
+            .catch(error => {
+            // Handle any error that occurs
+                console.error(error);
+            });
+        }
     </script>
-    <script src="/public/layout/scripts/jquery.min.js"></script>
-    <script src="/public/layout/scripts/jquery.backtotop.js"></script>
-    <script src="/public/layout/scripts/jquery.mobilemenu.js"></script>
+    <script src="/layout/scripts/jquery.min.js"></script>
+    <script src="/layout/scripts/jquery.backtotop.js"></script>
+    <script src="/layout/scripts/jquery.mobilemenu.js"></script>
     </body>
 </html>
