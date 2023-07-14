@@ -17,7 +17,13 @@ const app = express();
 const client = new MongoClient(uri);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors({credentials: true, origin: "http://127.0.0.1:3000", exposedHeaders: ["set-cookie"]}));
+app.use(cors(
+    {
+        credentials: true, 
+        origin: ['http://127.0.0.1:3000', 'https://orca-app-5mk2t.ondigitalocean.app/'], 
+        exposedHeaders: ['set-cookie']
+    }
+));
 app.use(cookieParser());
 // Middleware checks for valid JSON.
 app.use((err, req, res, next) => {
