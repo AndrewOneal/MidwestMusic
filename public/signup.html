@@ -96,7 +96,7 @@ Licence URI: https://www.os-templates.com/template-terms
 					alert("All fields must be filled in before submitting.");
 				}
 				else {
-					axios.post("http://localhost:3000/auth/signup", {
+					axios.post("https://orca-app-5mk2t.ondigitalocean.app/auth/signup", {
 						name: `${name.val()}`,
 						email: `${email.val()}`,
 						password: `${password.val()}`
